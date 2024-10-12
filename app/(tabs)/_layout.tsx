@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { StyleSheet} from 'react-native';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
@@ -13,6 +14,8 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
+        tabBarStyle:styles.tabBarStyle,
+        tabBarLabelStyle: styles.label,
       }}>
       <Tabs.Screen
         name="index"
@@ -23,15 +26,48 @@ export default function TabLayout() {
           ),
         }}
       />
+
+      <Tabs.Screen 
+        name='check_in_out'
+        options={{
+          title: "Check In/Out",
+          tabBarIcon: ({color, focused}) => (
+            <TabBarIcon name={focused ? 'scan-circle-sharp' : 'scan'} color = {color}/>
+          ),
+        }}/>
+
+
       <Tabs.Screen
         name="explore"
         options={{
-          title: 'Explore',
+          title: 'Progress',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'time' : 'time-outline'} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="tutorial"
+        options={{
+          title: 'Tutorials',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ?  'arrow-forward-circle-sharp' : 'arrow-forward-circle-outline'} color={color} />
           ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBarStyle: {
+     backgroundColor: '#FFC600',
+     borderRadius: 15, 
+     padding: 8
+  },
+
+  label: {
+    fontSize: 12
+  }
+})
