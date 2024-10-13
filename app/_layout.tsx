@@ -19,6 +19,15 @@ const CustomDefaultTheme = {
   }
 }
 
+// Custom Dark theme (with default dark background)
+const CustomDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: '#45474B',  // Dark background for dark mode
+  },
+};
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
@@ -36,8 +45,7 @@ export default function RootLayout() {
   }
 
   return (
-    // <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : CustomDefaultTheme}>
+    <ThemeProvider value={colorScheme === 'light' ? CustomDarkTheme : CustomDefaultTheme }>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />

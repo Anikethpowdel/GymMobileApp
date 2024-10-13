@@ -1,13 +1,12 @@
 import { Dimensions,Image, Text, StyleSheet, Platform, View, ViewStyle } from 'react-native';
-
-import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import {Calendar} from 'react-native-calendars';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import DonutChart from '@/components/donutChart';
+import ModifiedScrollView from '@/components/ModifiedScrollView';
+import tw from 'twrnc';
 
-
-// export default function HomeScreen() {
 const HomeScreen = () => {
 
   const [selected, setSelected] = useState('');
@@ -19,7 +18,8 @@ const HomeScreen = () => {
       setDimensions(screen);
     });
     return () => subscription?.remove();
-  }, []);
+  }, 
+[]);
 
   
 const getResponsiveStyles = (): {headerContent: ViewStyle} => {
@@ -28,9 +28,10 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
   const {width: screenwidth, height: screenHeight} = Dimensions.get('screen');
   
   // Calculate relative dimesion
-  const horizontalPadding = screenwidth * 0.05;
-  const marginHorizontal = screenwidth * 0.03;
-  const marginTop = screenHeight * 0.1;
+  const horizontalPadding = screenwidth * 0.02;
+  const marginHorizontal = screenwidth * 0.04;
+  const marginVertical = screenwidth * 0.01;
+  const marginTop = screenHeight * 0.12;
 
   return {
       headerContent: {
@@ -39,9 +40,10 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
           alignItems: 'flex-start',
           justifyContent: 'flex-end',
           backgroundColor: '#FFF',
-          borderRadius: 8,
+          borderRadius: 15,
           marginTop: marginTop,
           marginHorizontal: marginHorizontal,
+          marginVertical: marginVertical,
   
           ...Platform.select({
               ios: {
@@ -68,14 +70,18 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
   const responsiveStyles = getResponsiveStyles();
 
   return (
-    <ParallaxScrollView
-          
-      // Welcome Card
+    // <ParallaxScrollView
+    <ModifiedScrollView
+    backgroundColor='#ECE9E9'
+
+      /* // Welcome Card */
       headerContent={
         <ThemedView style={responsiveStyles.headerContent}>
           <ThemedView style={styles.headerContainer}>
             <ThemedView style={styles.headerTextContainer}>
-              <Text style= {styles.headerText}>Welcome, Users</Text>
+              <Text style= {styles.headerText}>Welcome, 
+                <Text style= {styles.innerText}>Users</Text>
+              </Text>
                 <ThemedText style= {styles.welcomeSubtitle}>02210201.cst@rub.edu.bt</ThemedText>
                 <ThemedText style= {styles.welcomeSubtitle}>Information Technology</ThemedText>
             </ThemedView>
@@ -86,6 +92,23 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
           </ThemedView>
         </ThemedView>
       }>
+        
+      {/* User  Content*/}
+
+      {/* <View className="bg-white rounded-xl p-4 flex-row items-center justify-between shadow-md">
+      <View className="flex-1">
+        <Text className="text-lg font-semibold">
+          Welcome, <Text className="text-yellow-400">User</Text>
+        </Text>
+        <Text className="text-sm text-gray-600">02210227.cst@rub.edu.bt</Text>
+        <Text className="text-sm text-gray-600">Information Technology</Text>
+      </View>
+      <Image
+        source={{ uri: 'https://via.placeholder.com/60' }}
+        className="w-14 h-14 rounded-full"
+      />
+    </View> */}
+
 
       {/* Calender */}
       <ThemedView style= {styles.content}>
@@ -103,28 +126,40 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
         </ThemedView>  
       </ThemedView>
 
-      {/* Gym Managers */}
-      <ThemedView>
-        <ThemedView>
-          <ThemedText style= {styles.calenderHeader}>Gym Managers</ThemedText>
-        </ThemedView>
-      </ThemedView>
-    </ParallaxScrollView>
+      {/* Gym containers */}
+      <View style={styles.gymInfoSection}>
+        
+        {/* Gym Manager */}
+          <View style={styles.gymManagerContainer}>
+            <ThemedText style={styles.sectionHeader}>Gym Managers</ThemedText>
+            <ThemedView style={styles.gymManagersSection}>
+              <Text style={styles.statusText}>Jimpa Jamtsho, 
+                <Text style={styles.statusText}>17425363</Text>
+              </Text>
+              <Text style={styles.statusText}>Jimpa Jamtsho, 
+                <Text style={styles.statusText}>17425363</Text>
+              </Text>
+            </ThemedView>
+          </View>
+
+          <View>
+            <ThemedText style={styles.sectionHeader}>Gym Status</ThemedText>
+            <ThemedView style ={styles.gymStatusSection}>
+              <ThemedText style={styles.statusText}>Trainer: Donna Paulat</ThemedText>
+              <ThemedText style={styles.statusText}>Users Active</ThemedText>
+              <View style={styles.donutChartContainer}>
+                <DonutChart value={30} size={120} strokeWidth={10} color="#4CAF50" />
+              </View>
+            </ThemedView>
+          </View>
+        </View>
+    </ModifiedScrollView>
   );
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
 
   // Header Section
   headerContainer: {
@@ -144,6 +179,12 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
+  innerText: {
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#FFC600'
+  },
+
   welcomeSubtitle: {
     fontSize: 14,
     color: '#666'
@@ -158,17 +199,20 @@ const styles = StyleSheet.create({
   // Calender 
   content: {
     flex: 1,
-    padding: 16
+    padding: 16, 
+    backgroundColor: 'transparent'
   },
 
   calenderSection:{
-    marginBottom: 20
+    marginBottom: 20,
+    backgroundColor: 'transparent'
   },
 
   calenderHeader:{
     // padding: 18,
     fontWeight: 'bold',
-    marginBottom: 10
+    marginBottom: 10, 
+    color: '#000'
   },
 
   calender: {
@@ -176,5 +220,73 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 1,
     borderColor: 'gray',
+  },
+
+  // Gym Managers 
+  gymInfoSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20
+  },
+
+  gymManagerContainer: {
+    flex: 1,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 8,
+  },
+
+  sectionHeader:{
+    fontWeight: 'bold',
+    marginBottom: 10, 
+    color: '#000'
+  },
+
+  gymManagersSection: {
+    flex: 1,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 8,
+    padding: 10,
+  },
+
+  managerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
+    backgroundColor: 'transparent',
+  },
+
+  yellowDot: {
+    width: 8,
+    height: 8, 
+    borderRadius: 4,
+    backgroundColor: 'yellow',
+    marginRight: 8
+  },
+
+  gymStatusSection: {
+    flex: 1,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 8,
+    padding: 10,
+    alignItems: 'center'
+  },
+
+  statusText: {
+    color: '#000',
+    marginBottom: 5,
+    fontSize: 16
+  },
+
+  activeUsersCount: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: 'green',
+    textAlign: 'center',
+    marginTop: 10
+  },
+
+  donutChartContainer: {
+    marginTop: 10,
   }
+
 });
