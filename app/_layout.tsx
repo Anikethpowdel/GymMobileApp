@@ -1,11 +1,14 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-
+import {Drawer} from 'expo-router/drawer';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { Ionicons } from '@expo/vector-icons';
+import Entypo from '@expo/vector-icons/Entypo';
+import { DrawerContent } from '@react-navigation/drawer';
+import CustomDrawerContent from '@/components/CustomDrawer';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -46,10 +49,47 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'light' ? CustomDarkTheme : CustomDefaultTheme }>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+      {/* Drawer Navigation */}
+      <Drawer
+        screenOptions={{
+          drawerPosition: 'left',
+          drawerType: 'front',
+          headerShown: false,
+        }}
+        drawerContent={(props) => <CustomDrawerContent {...props}/>}
+      >
+
+         {/* Main Tab screen inside drawer 
+        <Drawer.Screen
+          name='(tabs)'
+          options={{
+            title: "HomeScreen",
+            drawerLabel: "HomeScreen"
+          }}
+      /> */}
+
+        {/* <Drawer.Screen
+          name='screens/manageProfile'
+          options={{
+            title: "Manage Profile",
+            drawerLabel: "Manage Profile"
+          }}
+        /> */}
+
+        {/* <Drawer.Screen
+          name='screens/aboutUs'
+          options={{
+            title: "About Us",
+            drawerLabel: "About Us",
+            drawerIcon: ({size,color}) => (
+              <Entypo name="info-with-circle" size={24} color="black" />
+          )
+          }}
+        /> */}
+
+      {/* Stack for additional drawer */}
+
+      </Drawer>
     </ThemeProvider>
   );
 }

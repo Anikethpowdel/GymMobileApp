@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import { Dimensions,Image, Text, StyleSheet, Platform, View, ViewStyle } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -5,7 +6,7 @@ import {Calendar} from 'react-native-calendars';
 import React, { useState, useEffect } from 'react';
 import DonutChart from '@/components/donutChart';
 import ModifiedScrollView from '@/components/ModifiedScrollView';
-import tw from 'twrnc';
+
 
 const HomeScreen = () => {
 
@@ -31,7 +32,7 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
   const horizontalPadding = screenwidth * 0.02;
   const marginHorizontal = screenwidth * 0.04;
   const marginVertical = screenwidth * 0.01;
-  const marginTop = screenHeight * 0.12;
+  const marginTop = screenHeight * 0.03;
 
   return {
       headerContent: {
@@ -93,22 +94,6 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
         </ThemedView>
       }>
         
-      {/* User  Content*/}
-
-      {/* <View className="bg-white rounded-xl p-4 flex-row items-center justify-between shadow-md">
-      <View className="flex-1">
-        <Text className="text-lg font-semibold">
-          Welcome, <Text className="text-yellow-400">User</Text>
-        </Text>
-        <Text className="text-sm text-gray-600">02210227.cst@rub.edu.bt</Text>
-        <Text className="text-sm text-gray-600">Information Technology</Text>
-      </View>
-      <Image
-        source={{ uri: 'https://via.placeholder.com/60' }}
-        className="w-14 h-14 rounded-full"
-      />
-    </View> */}
-
 
       {/* Calender */}
       <ThemedView style= {styles.content}>
@@ -125,34 +110,27 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
           />
         </ThemedView>  
       </ThemedView>
-
-      {/* Gym containers */}
-      <View style={styles.gymInfoSection}>
         
-        {/* Gym Manager */}
-          <View style={styles.gymManagerContainer}>
-            <ThemedText style={styles.sectionHeader}>Gym Managers</ThemedText>
-            <ThemedView style={styles.gymManagersSection}>
-              <Text style={styles.statusText}>Jimpa Jamtsho, 
-                <Text style={styles.statusText}>17425363</Text>
-              </Text>
-              <Text style={styles.statusText}>Jimpa Jamtsho, 
-                <Text style={styles.statusText}>17425363</Text>
-              </Text>
-            </ThemedView>
-          </View>
-
-          <View>
-            <ThemedText style={styles.sectionHeader}>Gym Status</ThemedText>
+      {/* Gym Status */}
+      <View style={styles.gymStatusContainer}>
+            <ThemedText style={styles.sectionHeader}>Users Active</ThemedText>
             <ThemedView style ={styles.gymStatusSection}>
-              <ThemedText style={styles.statusText}>Trainer: Donna Paulat</ThemedText>
-              <ThemedText style={styles.statusText}>Users Active</ThemedText>
+              {/* <ThemedText style={styles.statusText}>Users Active</ThemedText> */}
               <View style={styles.donutChartContainer}>
                 <DonutChart value={30} size={120} strokeWidth={10} color="#4CAF50" />
               </View>
             </ThemedView>
           </View>
-        </View>
+        
+        {/* Gym Manager */}
+          <View style={styles.gymManagerContainer}>
+            <ThemedText style={styles.sectionHeader}>Gym Managers</ThemedText>
+            <ThemedView style={styles.gymManagersSection}>
+              <Text style={styles.statusText}>Jimpa Jamtsho, {'\u00A0\u00A0\u00A0\u00A0\u00A0'}
+                <Text style={styles.statusText}>17425363</Text>
+              </Text>
+            </ThemedView>
+          </View>
     </ModifiedScrollView>
   );
 };
@@ -222,23 +200,28 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
   },
 
-  // Gym Managers 
-  gymInfoSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20
-  },
-
   gymManagerContainer: {
     flex: 1,
     backgroundColor: '#F0F0F0',
     borderRadius: 8,
+    padding: 10,
+    marginTop: 10,
+    width: '100%'
   },
 
   sectionHeader:{
     fontWeight: 'bold',
     marginBottom: 10, 
     color: '#000'
+  },
+
+  // Gym status section
+  gymStatusContainer: {
+    flex: 1,
+    backgroundColor: '#F0F0F0',
+    borderRadius: 8,
+    padding:10,
+    width: '100%',
   },
 
   gymManagersSection: {
@@ -274,7 +257,8 @@ const styles = StyleSheet.create({
   statusText: {
     color: '#000',
     marginBottom: 5,
-    fontSize: 16
+    fontSize: 16, 
+    padding: 7
   },
 
   activeUsersCount: {

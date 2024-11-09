@@ -1,10 +1,10 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { StyleSheet} from 'react-native';
-
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import CustomHeader from '@/components/hamicon';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -13,10 +13,11 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
+        headerShown: true,
         tabBarStyle:styles.tabBarStyle,
         tabBarLabelStyle: styles.label,
       }}>
+
       <Tabs.Screen
         name="index"
         options={{
@@ -24,6 +25,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
           ),
+          header: () => <CustomHeader/>
         }}
       />
 
