@@ -5,9 +5,6 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 import {Drawer} from 'expo-router/drawer';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { Ionicons } from '@expo/vector-icons';
-import Entypo from '@expo/vector-icons/Entypo';
-import { DrawerContent } from '@react-navigation/drawer';
 import CustomDrawerContent from '@/components/CustomDrawer';
 import React from 'react';
 

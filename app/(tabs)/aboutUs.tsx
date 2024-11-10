@@ -12,8 +12,8 @@ const AboutUs = () => {
 
     return (
         <ScrollView contentContainerStyle = {styles.container}>
+            
             {/* About us Section  */}
-
             <View style={styles.aboutSection}>
                 <ImageBackground 
                     source={require('@/assets/images/gymBackground.jpg')}
@@ -29,7 +29,7 @@ const AboutUs = () => {
                     </TouchableOpacity>          
                     </View> 
 
-                    <Text style={styles.aboutText}>About Us</Text>
+                    {/* <Text style={styles.aboutText}>About Us</Text> */}
                     <Text style={styles.aboutDescription}>
                         Welcome to CST GYM! Our mission is to empower individuals to achieve their fitness goals 
                         in a supportive and motivating environment. 

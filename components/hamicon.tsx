@@ -17,11 +17,11 @@ const CustomHeader = () => {
 
             {/* Notification Icon */}
             <TouchableOpacity 
-                onPress={()=> navigation.dispatch(DrawerActions.jumpTo("screens/notification"))} 
+                onPress={()=> navigation.dispatch(DrawerActions.jumpTo('(tabs)', {screen:'notification'}))} 
                 style = {styles.iconContainer}>
                 <Ionicons name="notifications" size={30} color="black" />
             </TouchableOpacity>
-            </View> 
+        </View> 
     )
 }
 

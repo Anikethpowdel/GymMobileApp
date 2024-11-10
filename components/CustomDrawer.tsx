@@ -32,7 +32,7 @@ const CustomDrawerContent = (props) => {
             <View style={styles.menuContainer}>
                 <DrawerItem
                     label="About Us"
-                    onPress={() => navigation.navigate("screens/aboutUs")}
+                    onPress={() => navigation.navigate('(tabs)', {screen:'aboutUs'})}
                     icon={() => 
                         // <Ionicons name="information-circle-outline" size={24} color="black" />
                         <Entypo name="info-with-circle" size={24} color="black" />
