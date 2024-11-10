@@ -9,6 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
 import { DrawerContent } from '@react-navigation/drawer';
 import CustomDrawerContent from '@/components/CustomDrawer';
+import React from 'react';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -67,25 +68,6 @@ export default function RootLayout() {
             drawerLabel: "HomeScreen"
           }}
       /> */}
-
-        {/* <Drawer.Screen
-          name='screens/manageProfile'
-          options={{
-            title: "Manage Profile",
-            drawerLabel: "Manage Profile"
-          }}
-        /> */}
-
-        {/* <Drawer.Screen
-          name='screens/aboutUs'
-          options={{
-            title: "About Us",
-            drawerLabel: "About Us",
-            drawerIcon: ({size,color}) => (
-              <Entypo name="info-with-circle" size={24} color="black" />
-          )
-          }}
-        /> */}
 
       {/* Stack for additional drawer */}
 

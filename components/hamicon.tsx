@@ -2,7 +2,6 @@ import React from "react";
 import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import { useNavigation, DrawerActions } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import Notification from "@/app/screens/notification";
 
 const CustomHeader = () => {
     const navigation = useNavigation();
