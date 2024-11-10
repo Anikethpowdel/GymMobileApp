@@ -7,11 +7,11 @@ import React, { useState, useEffect } from 'react';
 import DonutChart from '@/components/donutChart';
 import ModifiedScrollView from '@/components/ModifiedScrollView';
 
-
 const HomeScreen = () => {
 
   const [selected, setSelected] = useState('');
   const [dimesions, setDimensions] = useState(Dimensions.get('screen'));
+  const [gymManagers, setGymManagers] = useState([]);
 
   // Handle orientation change
   useEffect(()=>{
@@ -21,6 +21,21 @@ const HomeScreen = () => {
     return () => subscription?.remove();
   }, 
 []);
+
+// Fetch the gym managers 
+useEffect(()=>{
+  const fetchManagers = async () => {
+    try{
+      const response = await fetch("http://10.2.4.251:3001/api/gymManagers");
+      const data = await response.json();
+      setGymManagers(data);
+    }
+    catch(error){
+      console.log("Could not fetch the gym managers", error);
+    }
+  };
+  fetchManagers();
+},[]);
 
   
 const getResponsiveStyles = (): {headerContent: ViewStyle} => {
@@ -117,8 +132,9 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
             <ThemedView style ={styles.gymStatusSection}>
               {/* <ThemedText style={styles.statusText}>Users Active</ThemedText> */}
               <View style={styles.donutChartContainer}>
-                <DonutChart value={30} size={120} strokeWidth={10} 
-                // color="#4CAF50" 
+                <DonutChart 
+                  size={120} 
+                  strokeWidth={10}  
                 />
               </View>
             </ThemedView>
@@ -128,9 +144,13 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
           <View style={styles.gymManagerContainer}>
             <ThemedText style={styles.sectionHeader}>Gym Managers</ThemedText>
             <ThemedView style={styles.gymManagersSection}>
-              <Text style={styles.statusText}>Jimpa Jamtsho, {'\u00A0\u00A0\u00A0\u00A0\u00A0'}
-                <Text style={styles.statusText}>17425363</Text>
-              </Text>
+              {gymManagers.map((manager, index)=> (
+                <Text key= {index} style={styles.statusText}>
+                  {manager.name}, {'\u00A0\u00A0\u00A0\u00A0\u00A0'}
+                  <Text style={styles.statusText}>{manager.contact_number}</Text>
+                </Text>
+              ))}
+
             </ThemedView>
           </View>
     </ModifiedScrollView>

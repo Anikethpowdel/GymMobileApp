@@ -20,14 +20,6 @@ const AboutUs = () => {
                     style={styles.backgroundImage}
                     imageStyle={styles.transparentImage}
                 >
-                    {/* <View style= {styles.header}> */}
-                    {/* Hamburger Menu Icon to open Drawer */}
-                    {/* <TouchableOpacity
-                        onPress={() => navigation.dispatch(DrawerActions.jumpTo('(tabs)', {screen:'index'}))}
-                        style = {styles.iconContainer}>
-                        <Entypo name="home" size={24} color="black" />
-                    </TouchableOpacity>          
-                    </View>  */}
 
                     {/* <Text style={styles.aboutText}>About Us</Text> */}
                     <Text style={styles.aboutDescription}>
