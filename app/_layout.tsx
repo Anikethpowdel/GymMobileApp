@@ -69,8 +69,6 @@ export default function RootLayout() {
           }}
       /> */}
 
-      {/* Stack for additional drawer */}
-
       </Drawer>
     </ThemeProvider>
   );

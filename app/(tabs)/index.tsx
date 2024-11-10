@@ -117,7 +117,9 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
             <ThemedView style ={styles.gymStatusSection}>
               {/* <ThemedText style={styles.statusText}>Users Active</ThemedText> */}
               <View style={styles.donutChartContainer}>
-                <DonutChart value={30} size={120} strokeWidth={10} color="#4CAF50" />
+                <DonutChart value={30} size={120} strokeWidth={10} 
+                // color="#4CAF50" 
+                />
               </View>
             </ThemedView>
           </View>
