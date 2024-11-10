@@ -5,7 +5,7 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import CustomHeader from '@/components/hamicon';
-import { Ionicons } from '@expo/vector-icons';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 import { View } from 'react-native';
 import { useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
@@ -69,10 +69,6 @@ export default function TabLayout() {
         name='notification'
         options={{
           title: 'Notification',
-          tabBarIcon: ({color, focused}) => (
-            <TabBarIcon name = {focused ? 'arrow-forward-circle-sharp' : 'arrow-forward-circle-outline'} color={color}/>
-            // <Ionicons name = "arrow-back"></Ionicons>
-          ),
           headerLeft: () => (
             <View style={{paddingLeft: 10}}>
               <Ionicons name = "arrow-back" size={32} 
@@ -88,9 +84,12 @@ export default function TabLayout() {
         name='aboutUs'
         options={{
           title: 'About Us',
-          tabBarIcon: ({color, focused}) => (
-            <TabBarIcon name = {focused ? 'arrow-forward-circle-sharp' : 'arrow-forward-circle-outline'} color={color}/>
-            
+          headerLeft: () => (
+            <View style= {{paddingLeft: 10}}>
+              <Entypo name="home" size={24} color="black"
+                onPress={() => navigation.dispatch(DrawerActions.jumpTo('(tabs)', {screen:'index'}))}
+                />  
+            </View>
           ),
           tabBarButton: () => null
         }}
