@@ -4,7 +4,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { parseISO, differenceInCalendarDays } from "date-fns";
 import { Card } from "react-native-paper";
-import { useEffect, useState } from "react"; \
+import { useEffect, useState } from "react";
 
 function UserStreak() {
   const [consecutiveDate, setConsecutiveDate] = useState([]);

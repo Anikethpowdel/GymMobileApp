@@ -1,25 +1,39 @@
-import React from "react";
-import {View, TouchableOpacity, StyleSheet, Text} from 'react-native';
-import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { Entypo, Ionicons } from "@expo/vector-icons";
-import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import { DrawerActions } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useAuth } from "../contexts/AuthContext"; // Import useAuth for logout
 
 const CustomDrawerContent = (props) => {
-    const {navigation} = props;
+    const { navigation } = props;
+    const { logout, user } = useAuth(); // Access logout from context
+    const router = useRouter(); // Import useRouter for routing
+
+    const handleLogout = async () => {
+        try {
+            await logout(); // Clear session data
+            router.replace("/login"); // Redirect to the login screen
+            console.log("User logged out successfully and redirected to login");
+        } catch (error) {
+            console.error("Failed to log out:", error);
+        }
+    };
+    
 
     return ( 
-        <DrawerContentScrollView {...props} contentContainerStyle = {styles.container}>
+        <DrawerContentScrollView {...props} contentContainerStyle={styles.container}>
             {/* Close Button */}
-            <TouchableOpacity onPress={()=> navigation.dispatch(DrawerActions.closeDrawer())} style={styles.closeButton}>
+            <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.closeDrawer())} style={styles.closeButton}>
                 <MaterialCommunityIcons name="close-thick" size={28} color="black" />            
             </TouchableOpacity>
 
             {/* Profile Section  */}
             <View style={styles.profileContainer}>
                 <Ionicons name="person-circle" size={80} color="#FFD700" />
-                    <Text style={styles.username}>Jimpa</Text>
-                    <Text style={styles.email}>02210227.cst@rub.edu.bt</Text>
+                    <Text style={styles.username}>{user?.name || ""}</Text>
+                    <Text style={styles.email}>{user?.email || ""}</Text>
                 <TouchableOpacity 
                     style={styles.manageProfileButton}
                     onPress={()=>navigation.dispatch(DrawerActions.jumpTo("screens/manageProfile"))}
@@ -32,26 +46,19 @@ const CustomDrawerContent = (props) => {
             <View style={styles.menuContainer}>
                 <DrawerItem
                     label="About Us"
-                    onPress={() => navigation.navigate('(tabs)', {screen:'aboutUs'})}
-                    icon={() => 
-                        // <Ionicons name="information-circle-outline" size={24} color="black" />
-                        <Entypo name="info-with-circle" size={24} color="black" />
-                    }
+                    onPress={() => navigation.navigate('(tabs)', { screen: 'aboutUs' })}
+                    icon={() => <Entypo name="info-with-circle" size={24} color="black" />}
                     labelStyle={styles.menuItemLabel}
                 />
                 <View style={styles.logoutContainer}>
                     <DrawerItem
                         label="Log Out"
-                        onPress={() => alert("Logged Out")}
-                        icon={() => 
-                            // <Ionicons name="log-out-outline" size={24} color="black" />
-                            <MaterialCommunityIcons name="logout" size={24} color="black" />
-                        }
+                        onPress={handleLogout} // Call the handleLogout function
+                        icon={() => <MaterialCommunityIcons name="logout" size={24} color="black" />}
                         labelStyle={styles.menuItemLabel}
                     />
                 </View>
             </View>
-
         </DrawerContentScrollView>
     );
 };
@@ -71,9 +78,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         margin: 10,
         padding: 20,
-        // backgroundColor: "#F8F8F8",
-        // borderBottomWidth: 1,
-        // borderBottomColor: "#E0E0E0",
     },
     username: {
         fontSize: 18,
@@ -90,16 +94,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 8,
         borderRadius: 5,
-        marginTop: 10
+        marginTop: 10,
     },
     manageProfileText: {
         color: "white",
         fontWeight: "bold",
-        fontSize: 17
+        fontSize: 17,
     },
     menuContainer: {
         paddingTop: 20,
-        paddingLeft: 10
+        paddingLeft: 10,
     },
     menuItemLabel: {
         fontSize: 17,
@@ -109,6 +113,6 @@ const styles = StyleSheet.create({
     logoutContainer: {
         justifyContent: 'flex-end',
         borderTopColor: "#E0E0E0",
-        marginTop: 10
-    }
+        marginTop: 10,
+    },
 });

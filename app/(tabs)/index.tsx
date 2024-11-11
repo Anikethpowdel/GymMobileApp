@@ -1,17 +1,17 @@
-import 'react-native-gesture-handler';
-import { Dimensions,Image, Text, StyleSheet, Platform, View, ViewStyle } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import {Calendar} from 'react-native-calendars';
-import React, { useState, useEffect } from 'react';
 import DonutChart from '@/components/donutChart';
 import ModifiedScrollView from '@/components/ModifiedScrollView';
-
-
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { useEffect, useState } from 'react';
+import { Dimensions, Image, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { Calendar } from 'react-native-calendars';
+import 'react-native-gesture-handler';
+import { useAuth } from '../../contexts/AuthContext';
 const HomeScreen = () => {
-
+  const { user } = useAuth(); 
   const [selected, setSelected] = useState('');
   const [dimesions, setDimensions] = useState(Dimensions.get('screen'));
+  const [gymManagers, setGymManagers] = useState([]);
 
   // Handle orientation change
   useEffect(()=>{
@@ -21,6 +21,21 @@ const HomeScreen = () => {
     return () => subscription?.remove();
   }, 
 []);
+
+// Fetch the gym managers 
+useEffect(()=>{
+  const fetchManagers = async () => {
+    try{
+      const response = await fetch("http://10.2.4.251:3001/api/gymManagers");
+      const data = await response.json();
+      setGymManagers(data);
+    }
+    catch(error){
+      console.log("Could not fetch the gym managers", error);
+    }
+  };
+  fetchManagers();
+},[]);
 
   
 const getResponsiveStyles = (): {headerContent: ViewStyle} => {
@@ -32,7 +47,7 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
   const horizontalPadding = screenwidth * 0.02;
   const marginHorizontal = screenwidth * 0.04;
   const marginVertical = screenwidth * 0.01;
-  const marginTop = screenHeight * 0.03;
+  const marginTop = screenHeight * 0.01;
 
   return {
       headerContent: {
@@ -61,7 +76,7 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
               }
           }),
           // Minimum and maximum constraints
-          minHeight: screenHeight * 0.15, // Minimum height of 15% of screen height
+          minHeight: screenHeight * 0.13, // Minimum height of 15% of screen height
           maxWidth: 600, // Maximum width for larger devices
           width: screenwidth - (marginHorizontal * 2), // Responsive width
         },
@@ -81,13 +96,13 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
           <ThemedView style={styles.headerContainer}>
             <ThemedView style={styles.headerTextContainer}>
               <Text style= {styles.headerText}>Welcome, 
-                <Text style= {styles.innerText}>Users</Text>
+                <Text style= {styles.innerText}>{user?.name ?? 'Guest'}</Text>
               </Text>
-                <ThemedText style= {styles.welcomeSubtitle}>02210201.cst@rub.edu.bt</ThemedText>
-                <ThemedText style= {styles.welcomeSubtitle}>Information Technology</ThemedText>
+                <ThemedText style= {styles.welcomeSubtitle}>{user?.email ?? 'No email available'}</ThemedText>
+                
             </ThemedView>
             <Image 
-              source={{uri: 'https://via.placeholder.com/60'}}
+              source={require('@/assets/images/profile.png')}
               style={styles.avatarLarge}
               />
           </ThemedView>
@@ -98,7 +113,7 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
       {/* Calender */}
       <ThemedView style= {styles.content}>
         <ThemedView style= {styles.calenderSection}>
-          <ThemedText style= {styles.calenderHeader}>Calander</ThemedText>
+          <ThemedText style= {styles.calenderHeader}>Calender</ThemedText>
           <Calendar 
             style={styles.calender}
             onDayPress = {day => {
@@ -117,8 +132,9 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
             <ThemedView style ={styles.gymStatusSection}>
               {/* <ThemedText style={styles.statusText}>Users Active</ThemedText> */}
               <View style={styles.donutChartContainer}>
-                <DonutChart value={30} size={120} strokeWidth={10} 
-                // color="#4CAF50" 
+                <DonutChart 
+                  size={120} 
+                  strokeWidth={10}  
                 />
               </View>
             </ThemedView>
@@ -128,9 +144,13 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
           <View style={styles.gymManagerContainer}>
             <ThemedText style={styles.sectionHeader}>Gym Managers</ThemedText>
             <ThemedView style={styles.gymManagersSection}>
-              <Text style={styles.statusText}>Jimpa Jamtsho, {'\u00A0\u00A0\u00A0\u00A0\u00A0'}
-                <Text style={styles.statusText}>17425363</Text>
-              </Text>
+              {gymManagers.map((manager, index)=> (
+                <Text key= {index} style={styles.statusText}>
+                  {manager.name}, {'\u00A0\u00A0\u00A0\u00A0\u00A0'}
+                  <Text style={styles.statusText}>{manager.contact_number}</Text>
+                </Text>
+              ))}
+
             </ThemedView>
           </View>
     </ModifiedScrollView>
@@ -171,8 +191,8 @@ const styles = StyleSheet.create({
   },
 
   avatarLarge: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     borderRadius: 30,
   },
 
