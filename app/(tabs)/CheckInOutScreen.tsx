@@ -81,7 +81,7 @@ const CheckInOutScreen: React.FC = () => {
     }
   
     try {
-      const response = await axios.post('http://10.2.5.206:3001/api/checkins/checkin', {
+      const response = await axios.post('http://10.2.4.251:3001/api/checkins/checkin', {
         user_id: user.id, // Ensure user.id is valid here
         checkInTime: dateTime,
       });
@@ -99,7 +99,7 @@ const CheckInOutScreen: React.FC = () => {
   
   const handleCheckOut = async () => {
     try {
-      const response = await axios.put(`http://10.2.5.206:3001/api/checkins/checkout`, {
+      const response = await axios.put(`http://10.2.4.251:3001/api/checkins/checkout`, {
         user_id: user?.id,
         checkout_time: new Date().toISOString(),
       });

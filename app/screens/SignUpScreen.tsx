@@ -21,7 +21,7 @@ const SignupScreen: React.FC = () => {
     }
 
     try {
-      const response = await fetch('http://10.2.5.206:3001/api/auth/register', {
+      const response = await fetch('http://10.2.4.251:3001/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,19 +64,22 @@ const SignupScreen: React.FC = () => {
       <View style={styles.form}>
         <TextInput
           style={styles.input}
-          placeholder="Username*"
+          placeholder="Set your Username"
+          placeholderTextColor={'#565958'}
           value={username}
           onChangeText={setUsername}
         />
         <TextInput
           style={styles.input}
-          placeholder="Email*"
+          placeholder="Set your Email"
+          placeholderTextColor={'#565958'}
           value={email}
           onChangeText={setEmail}
         />
         <TextInput
           style={styles.input}
           placeholder="Create Password*"
+          placeholderTextColor={'#565958'}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -84,6 +87,7 @@ const SignupScreen: React.FC = () => {
         <TextInput
           style={styles.input}
           placeholder="Re-type Password*"
+          placeholderTextColor={'#565958'}
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry

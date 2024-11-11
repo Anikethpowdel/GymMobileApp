@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../../contexts/AuthContext';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const Login: React.FC = () => {
   const router = useRouter();
@@ -16,6 +17,7 @@ const Login: React.FC = () => {
       router.replace('/(tabs)'); // Redirect to authenticated screens
     } catch (error: any) {
       Alert.alert('Login Error', error.message);
+      console.log("Login Jims: ",error.message);
     }
   };
 
@@ -45,13 +47,15 @@ const Login: React.FC = () => {
           <View style={styles.form}>
             <TextInput
               style={styles.input}
-              placeholder="Enter email id"
+              placeholder="Enter your email"
+              placeholderTextColor={'#565958'}
               value={email}
               onChangeText={setEmail}
             />
             <TextInput
               style={styles.input}
               placeholder="Enter password"
+              placeholderTextColor={'#565958'}
               value={password}
               onChangeText={setPassword}
               secureTextEntry
@@ -160,6 +164,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginBottom: 15,
     backgroundColor: '#FFF',
+    color: '#000'
   },
   loginButton: {
     backgroundColor: '#FFC600',

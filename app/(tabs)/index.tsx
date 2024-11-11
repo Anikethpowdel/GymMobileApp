@@ -47,7 +47,7 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
   const horizontalPadding = screenwidth * 0.02;
   const marginHorizontal = screenwidth * 0.04;
   const marginVertical = screenwidth * 0.01;
-  const marginTop = screenHeight * 0.03;
+  const marginTop = screenHeight * 0.01;
 
   return {
       headerContent: {
@@ -76,7 +76,7 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
               }
           }),
           // Minimum and maximum constraints
-          minHeight: screenHeight * 0.15, // Minimum height of 15% of screen height
+          minHeight: screenHeight * 0.13, // Minimum height of 15% of screen height
           maxWidth: 600, // Maximum width for larger devices
           width: screenwidth - (marginHorizontal * 2), // Responsive width
         },
@@ -102,7 +102,7 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
                 
             </ThemedView>
             <Image 
-              source={{uri: 'https://via.placeholder.com/60'}}
+              source={require('@/assets/images/profile.png')}
               style={styles.avatarLarge}
               />
           </ThemedView>
@@ -191,8 +191,8 @@ const styles = StyleSheet.create({
   },
 
   avatarLarge: {
-    width: 60,
-    height: 60,
+    width: 80,
+    height: 80,
     borderRadius: 30,
   },
 
