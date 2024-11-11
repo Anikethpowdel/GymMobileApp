@@ -5,10 +5,10 @@ import { DrawerActions } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useAuth } from "../contexts/AuthContext"; // Import useAuth for logout
+
 const CustomDrawerContent = (props) => {
     const { navigation } = props;
-    const { logout } = useAuth(); // Access logout from context
-
+    const { logout, user } = useAuth(); // Access logout from context
     const router = useRouter(); // Import useRouter for routing
 
     const handleLogout = async () => {
@@ -28,15 +28,15 @@ const CustomDrawerContent = (props) => {
                 <MaterialCommunityIcons name="close-thick" size={28} color="black" />            
             </TouchableOpacity>
 
-            {/* Profile Section */}
+            {/* Profile Section  */}
             <View style={styles.profileContainer}>
                 <Ionicons name="person-circle" size={80} color="#FFD700" />
-                <Text style={styles.username}>Jimpa</Text>
-                <Text style={styles.email}>02210227.cst@rub.edu.bt</Text>
+                    <Text style={styles.username}>{user?.name || ""}</Text>
+                    <Text style={styles.email}>{user?.email || ""}</Text>
                 <TouchableOpacity 
                     style={styles.manageProfileButton}
-                    onPress={() => navigation.dispatch(DrawerActions.jumpTo("screens/manageProfile"))}
-                >
+                    onPress={()=>navigation.dispatch(DrawerActions.jumpTo("screens/manageProfile"))}
+                    >
                     <Text style={styles.manageProfileText}>Manage Profile</Text>
                 </TouchableOpacity>
             </View>
