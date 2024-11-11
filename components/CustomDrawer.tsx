@@ -14,12 +14,13 @@ const CustomDrawerContent = (props) => {
     const handleLogout = async () => {
         try {
             await logout(); // Clear session data
-            router.replace("/login");
-            console.log("lgoo") // Redirect to the login screen
+            router.replace("/login"); // Redirect to the login screen
+            console.log("User logged out successfully and redirected to login");
         } catch (error) {
             console.error("Failed to log out:", error);
         }
     };
+    
 
     return ( 
         <DrawerContentScrollView {...props} contentContainerStyle={styles.container}>
