@@ -113,7 +113,7 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
       {/* Calender */}
       <ThemedView style= {styles.content}>
         <ThemedView style= {styles.calenderSection}>
-          <ThemedText style= {styles.calenderHeader}>Calander</ThemedText>
+          <ThemedText style= {styles.calenderHeader}>Calender</ThemedText>
           <Calendar 
             style={styles.calender}
             onDayPress = {day => {

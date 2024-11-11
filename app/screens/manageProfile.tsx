@@ -51,18 +51,12 @@ const ManageProfile = () => {
         >
           <Ionicons name="chevron-back" size={32} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.dispatch(DrawerActions.jumpTo("screens/notification"))}
-          style={styles.iconContainer}
-        >
-          <Ionicons name="notifications" size={30} color="black" />
-        </TouchableOpacity>
       </View>
 
       <Text style={styles.title}>Edit Profile</Text>
 
       <Image
-        source={{ uri: 'https://via.placeholder.com/100' }}
+        source={require('@/assets/images/profile.png')}
         style={styles.avatar}
       />
 
@@ -117,11 +111,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    marginTop: 10,
+    marginTop: 15,
     justifyContent: 'space-between',
   },
   iconContainer: {
-    marginHorizontal: 18,
+    marginHorizontal: 10,
   },
   title: {
     fontSize: 24,
