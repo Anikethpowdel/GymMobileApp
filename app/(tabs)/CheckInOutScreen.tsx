@@ -134,8 +134,16 @@ const CheckInOutScreen: React.FC = () => {
       </View>
 
       {dateTime && (
-        <Text style={styles.dateTimeText}>Current Time: {dateTime}</Text>
-      )}
+  <Text style={styles.dateTimeText}>
+    CheckIn Time: {new Date(dateTime).toLocaleString("en-US", { 
+      hour: "2-digit", 
+      minute: "2-digit", 
+      second: "2-digit", 
+      hour12: true // Change to false for 24-hour format
+    })}
+  </Text>
+)}
+
 
       <TouchableOpacity
         style={checkedIn ? styles.checkOutButton : styles.checkInButton}
