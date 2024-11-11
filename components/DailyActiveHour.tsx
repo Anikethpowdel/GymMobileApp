@@ -5,16 +5,17 @@ import { parseISO, differenceInMinutes } from "date-fns";
 import { Card } from "react-native-paper";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { useState } from "react";
-import { Text } from "react-native";
+import { useAuth } from "@/contexts/AuthContext";
 
 function DailyActiveHour() {
   const [dailyActiveHour, setDailyActiveHour] = useState([]);
+  const { user } = useAuth();
   useEffect(() => {
     // Fetch data from the server
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://10.2.5.204:3001/api/checkins/checkin/26/today"
+          `http://10.2.5.204:3001/api/checkins/checkin/${user?.id}/today`
         ); // Replace with your API URL
         const data = await response.json(); // Parse the response as JSON
         setDailyActiveHour(data); // Update state with the fetched data
