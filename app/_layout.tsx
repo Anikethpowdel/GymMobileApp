@@ -1,9 +1,17 @@
+import CustomDrawerContent from '@/components/CustomDrawer';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { useFonts } from 'expo-font';
 import { Slot, useRouter } from 'expo-router';
-import { useEffect } from 'react';
+import { Drawer } from 'expo-router/drawer';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
+import 'react-native-reanimated';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
+
+// Prevent the splash screen from auto-hiding before asset loading is complete
+SplashScreen.preventAutoHideAsync();
 
 // Define themes
 const CustomDefaultTheme = {
@@ -24,6 +32,19 @@ const CustomDarkTheme = {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const [loaded] = useFonts({
+    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  });
+
+  useEffect(() => {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
+
+  if (!loaded) {
+    return null;
+  }
 
   return (
     <AuthProvider>
@@ -34,22 +55,47 @@ export default function RootLayout() {
   );
 }
 
+// Custom Drawer Layout component to ensure compatibility with expo-router
+function DrawerLayout() {
+  return (
+    <Drawer
+      screenOptions={{
+        drawerPosition: 'left',
+        drawerType: 'front',
+        headerShown: false,
+      }}
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+    >
+      <Slot /> {/* Render dynamic routes directly */}
+    </Drawer>
+  );
+}
+
 function AuthNavigator() {
   const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted && !loading) {
       if (isAuthenticated) {
-        router.replace('/(tabs)'); // Redirect to the authenticated screens
+        router.replace('/(tabs)'); // Navigate to authenticated screens
       } else {
-        router.replace('/login'); // Redirect to the login screen
+        router.replace('/login'); // Navigate to login screen
       }
     }
-  }, [isAuthenticated, loading]);
+  }, [isMounted, loading, isAuthenticated, router]);
 
-  // Return Slot component, which will be replaced by the appropriate screen based on routing
-  return loading ? <LoadingScreen /> : <Slot />;
+  if (loading || !isMounted) {
+    return <LoadingScreen />;
+  }
+
+  // Render DrawerLayout for authenticated users; otherwise, render Slot for login screen
+  return isAuthenticated ? <DrawerLayout /> : <Slot />;
 }
 
 // Loading component to show while checking authentication
