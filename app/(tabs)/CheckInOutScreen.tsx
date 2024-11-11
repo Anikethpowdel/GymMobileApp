@@ -51,29 +51,28 @@ const CheckInOutScreen: React.FC = () => {
   }
 
   const handleBarCodeScanned = async ({ data }: { data: string }) => {
-    if (!scanned) {
-      setScanned(true);
-      // await sound?.replayAsync();  // Play sound upon scanning the QR code
-      
-      try {
-        // Fetch the current date and time from the endpoint in the QR code
-        const response = await axios.get(data);  // Assumes `data` is the endpoint URL
-        const currentTime = response.data.currentDateTime;  // Adjusted to match returned field
+    if (scanned) return; // Prevent multiple scans
+    setScanned(true); // Lock further scans immediately
   
-        if (currentTime) {
-          setDateTime(currentTime);  // Set fetched time for display
-          Alert.alert("Success", "Check-in time retrieved successfully!");
-        } else {
-          throw new Error("Invalid response format");
-        }
-      } catch (error) {
-        Alert.alert("Error", "Unable to fetch check-in data");
-        setScanned(false);  // Allow re-scan in case of error
+    try {
+      // Fetch the current date and time from the endpoint in the QR code
+      const response = await axios.get(data);  // Assumes `data` is the endpoint URL
+      const currentTime = response.data.currentDateTime;
+      console.log(currentTime);
+  
+      if (currentTime) {
+        setDateTime(currentTime); // Set fetched time for display
+        Alert.alert("Success", "Check-in time retrieved successfully!");
+      } else {
+        throw new Error("Invalid response format");
       }
+    } catch (error) {
+      Alert.alert("Error", "Unable to fetch check-in data");
+    } finally {
+      setTimeout(() => setScanned(false), 1500); // Delay re-scanning for 1.5s to prevent immediate re-scan
     }
   };
   
-
   const handleCheckIn = async () => {
     if (!user?.id) {
       Alert.alert("User Not Logged In", "Please log in to check in.");
