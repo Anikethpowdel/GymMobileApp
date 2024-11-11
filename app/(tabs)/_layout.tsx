@@ -1,14 +1,12 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { StyleSheet} from 'react-native';
+// app/_layout.tsx or your main navigation file
+import CustomHeader from '@/components/hamicon';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import CustomHeader from '@/components/hamicon';
 import { Entypo, Ionicons } from '@expo/vector-icons';
-import { View } from 'react-native';
-import { useNavigation } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native';
+import { Tabs, useNavigation } from 'expo-router';
+import { StyleSheet, View } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -36,14 +34,14 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen 
-        name='check_in_out'
+        name="CheckInOutScreen" 
         options={{
           title: "Check In/Out",
-          tabBarIcon: ({color, focused}) => (
-            <TabBarIcon name={focused ? 'scan-circle-sharp' : 'scan'} color = {color}/>
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'scan-circle-sharp' : 'scan'} color={color} />
           ),
-        }}/>
-
+        }}
+      />
 
       <Tabs.Screen
         name="Progress"
@@ -60,7 +58,7 @@ export default function TabLayout() {
         options={{
           title: 'Tutorials',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ?  'arrow-forward-circle-sharp' : 'arrow-forward-circle-outline'} color={color} />
+            <TabBarIcon name={focused ? 'arrow-forward-circle-sharp' : 'arrow-forward-circle-outline'} color={color} />
           ),
         }}
       />
@@ -101,11 +99,10 @@ export default function TabLayout() {
 
 const styles = StyleSheet.create({
   tabBarStyle: {
-     backgroundColor: '#FFC600',
-     borderRadius: 15, 
-     padding: 8
+    backgroundColor: '#FFC600',
+    borderRadius: 15, 
+    padding: 8,
   },
-
   label: {
     fontSize: 12
   },
