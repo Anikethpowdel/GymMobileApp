@@ -53,7 +53,7 @@ const CheckInOutScreen: React.FC = () => {
   const handleBarCodeScanned = async ({ data }: { data: string }) => {
     if (!scanned) {
       setScanned(true);
-      await sound?.replayAsync();  // Play sound upon scanning the QR code
+      // await sound?.replayAsync();  // Play sound upon scanning the QR code
       
       try {
         // Fetch the current date and time from the endpoint in the QR code
