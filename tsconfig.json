@@ -3,16 +3,21 @@
   "compilerOptions": {
     "jsx": "react",
     "strict": true,
+    "jsx": "react-jsx", // Use the new JSX runtime for React 17+
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
+    "contexts/**/*.ts",
+    "contexts/**/*.tsx",
+    "screens/**/*.ts",
+    "screens/**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
   ]
 }

@@ -1,14 +1,14 @@
-import 'react-native-gesture-handler';
-import { Dimensions,Image, Text, StyleSheet, Platform, View, ViewStyle } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import {Calendar} from 'react-native-calendars';
-import React, { useState, useEffect } from 'react';
 import DonutChart from '@/components/donutChart';
 import ModifiedScrollView from '@/components/ModifiedScrollView';
-
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { useEffect, useState } from 'react';
+import { Dimensions, Image, Platform, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { Calendar } from 'react-native-calendars';
+import 'react-native-gesture-handler';
+import { useAuth } from '../../contexts/AuthContext';
 const HomeScreen = () => {
-
+  const { user } = useAuth(); 
   const [selected, setSelected] = useState('');
   const [dimesions, setDimensions] = useState(Dimensions.get('screen'));
   const [gymManagers, setGymManagers] = useState([]);
@@ -96,10 +96,10 @@ const getResponsiveStyles = (): {headerContent: ViewStyle} => {
           <ThemedView style={styles.headerContainer}>
             <ThemedView style={styles.headerTextContainer}>
               <Text style= {styles.headerText}>Welcome, 
-                <Text style= {styles.innerText}>Users</Text>
+                <Text style= {styles.innerText}>{user?.name ?? 'Guest'}</Text>
               </Text>
-                <ThemedText style= {styles.welcomeSubtitle}>02210201.cst@rub.edu.bt</ThemedText>
-                <ThemedText style= {styles.welcomeSubtitle}>Information Technology</ThemedText>
+                <ThemedText style= {styles.welcomeSubtitle}>{user?.email ?? 'No email available'}</ThemedText>
+                
             </ThemedView>
             <Image 
               source={{uri: 'https://via.placeholder.com/60'}}
