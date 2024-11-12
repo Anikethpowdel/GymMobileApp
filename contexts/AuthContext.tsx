@@ -1,6 +1,14 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+/** @format */
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface User {
   id: number;
@@ -14,16 +22,18 @@ interface AuthContextData {
   token: string | null;
   isAuthenticated: boolean;
   loading: boolean;
-  setUser: (user: User | null) => void; 
+  setUser: (user: User | null) => void;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData | undefined>(undefined);
 
-const API_URL = 'http://10.2.5.206:3001/api/auth/login';
+const API_URL = "http://10.2.5.204:3001/api/auth/login";
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -33,8 +43,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const loadStoredAuthData = async () => {
       try {
-        const storedToken = await AsyncStorage.getItem('token');
-        const storedUser = await AsyncStorage.getItem('user');
+        const storedToken = await AsyncStorage.getItem("token");
+        const storedUser = await AsyncStorage.getItem("user");
 
         if (storedToken && storedUser) {
           setToken(storedToken);
@@ -61,17 +71,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         email,
         password,
         role_id: 2,
-        appType: 'mobile',
+        appType: "mobile",
       });
 
       const { token, user } = response.data;
 
       if (user.role_id !== 2) {
-        throw new Error('Access denied for this application type');
+        throw new Error("Access denied for this application type");
       }
 
-      await AsyncStorage.setItem('token', token);
-      await AsyncStorage.setItem('user', JSON.stringify(user));
+      await AsyncStorage.setItem("token", token);
+      await AsyncStorage.setItem("user", JSON.stringify(user));
 
       setToken(token);
       setUser(user);
@@ -80,8 +90,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setIsAuthenticated(false);
       throw new Error(
         axios.isAxiosError(error) && error.response
-          ? error.response.data?.message || 'Login failed'
-          : 'Login failed'
+          ? error.response.data?.message || "Login failed"
+          : "Login failed"
       );
     } finally {
       setLoading(false);
@@ -89,15 +99,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const logout = async () => {
-    await AsyncStorage.removeItem('token');
-    await AsyncStorage.removeItem('user');
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("user");
     setToken(null);
     setUser(null);
     setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, isAuthenticated, loading, setUser, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, isAuthenticated, loading, setUser, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
@@ -105,6 +116,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error('useAuth must be used within an AuthProvider');
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
   return context;
 };
